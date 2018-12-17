@@ -1,0 +1,24 @@
+{
+  "name": "d3-learn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "babel src -d dist -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geminate/d3-learn.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geminate/d3-learn/issues"
+  },
+  "homepage": "https://github.com/geminate/d3-learn#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1"
+  }
+}
