@@ -12,7 +12,7 @@ class staticBarChart {
 
         // svg 容器大小
         this.svgSize = {width: svg.getBoundingClientRect().width, height: svg.getBoundingClientRect().height};
-
+console.log(svg.getBoundingClientRect());
         // svg 容器内边距
         this.svgPadding = {top: svgPadding[0], right: svgPadding[1], bottom: svgPadding[2], left: svgPadding[3]};
 
