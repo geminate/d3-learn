@@ -8,7 +8,6 @@
     import * as d3 from 'd3';
 
     export default {
-        name: 'DataSvg',
         mounted() {
             const jsonCircles = [
                 {"x_axis": 100, "y_axis": 100, "radius": 40},

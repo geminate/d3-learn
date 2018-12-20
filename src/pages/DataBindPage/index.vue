@@ -6,7 +6,6 @@
     import * as d3 from 'd3';
 
     export default {
-        name: 'DataBind',
         mounted() {
             const data = [1, 2, 3];
 
