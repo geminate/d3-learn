@@ -2,8 +2,9 @@
     <div class="page-container">
         <nav>
             <router-link to="dataBind">1. 数据绑定</router-link>
-            <router-link to="DataSvg">2. 数据与SVG绑定</router-link>
-            <router-link to="StaticBarChart">3. 基本静态柱状图</router-link>
+            <router-link to="dataSvg">2. 数据与SVG绑定</router-link>
+            <router-link to="staticBarChart">3. 基本静态柱状图</router-link>
+            <router-link to="dynamicBarChart">4. 基本动态柱状图</router-link>
         </nav>
         <main>
             <router-view/>
@@ -70,14 +71,14 @@
         font-size: 10px;
         width: 100%;
         line-height: 1;
-        color: rgba(0, 0, 0, 0.8);
+        color: rgba(0, 0, 0, 0.2);
         content: "\25BC";
         position: absolute;
         text-align: center;
     }
 
     .d3-tip.n:after {
-        margin: -4px 0 0 0;
+        margin: -3px 0 0 0;
         top: 100%;
         left: 0;
     }
