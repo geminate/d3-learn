@@ -64,6 +64,7 @@
         color: #fff;
         border-radius: 8px;
         font-size: 14px;
+        pointer-events: none !important;
     }
 
     .d3-tip:after {
@@ -82,5 +83,9 @@
         margin: -3px 0 0 0;
         top: 100%;
         left: 0;
+    }
+
+    svg line {
+        shape-rendering: crispEdges;
     }
 </style>

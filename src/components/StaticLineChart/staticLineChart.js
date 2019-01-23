@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import d3Tip from 'd3-tip';
 
 class staticLineChart {
 
@@ -23,14 +24,18 @@ class staticLineChart {
     }
 
     create() {
+        this.tips = this._createTips();
         this.svgContainer = this._drawSvgContainer();
         this.drawContainer = this._drawDrawContainer(this.svgContainer);
+        this._createTipsCycle();
+        this.drawContainer.call(this.tips);
         this.scaleX = this._createScaleX();
         this.axisX = this._drawAxisX(this.drawContainer, this.scaleX);
         this.scaleY = this._createScaleY();
         this.axisY = this._drawAxisY(this.drawContainer, this.scaleY);
         this.axisYText = this._drawAxisYText(this.axisY);
         this.line = this._drawLine(this.drawContainer, this.scaleX, this.scaleY);
+        this.tipsBar = this._drawTipsBar(this.drawContainer, this.scaleX, this.scaleY);
     }
 
     // 绘制 SVG 容器
@@ -45,7 +50,7 @@ class staticLineChart {
 
     // 创建 x 比例尺
     _createScaleX() {
-        return d3.scaleBand().rangeRound([0, this.drawSize.width]).padding(0).domain(this.data.map(d => d.letter));
+        return d3.scalePoint().rangeRound([0, this.drawSize.width]).padding(0).align(0).domain(this.data.map(d => d.letter));
     }
 
     // 绘制 x 轴
@@ -56,11 +61,6 @@ class staticLineChart {
     // 创建 y 比例尺
     _createScaleY() {
         return d3.scaleLinear().rangeRound([this.drawSize.height, 0]).domain([0, d3.max(this.data, d => d.frequency)]);
-    }
-
-    // 绘制 y 轴
-    _drawAxisY(drawContainer, scaleY) {
-        return drawContainer.append("g").call(d3.axisLeft(scaleY));
     }
 
     // 绘制 y 轴
@@ -79,8 +79,69 @@ class staticLineChart {
     }
 
     // 绘制折线
-    _drawLine() {
+    _drawLine(drawContainer, scaleX, scaleY) {
+        return drawContainer.append("path")
+            .datum(this.data)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 1.5)
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("d", d3.line()
+                .defined(d => !isNaN(d.frequency))
+                .x(d => scaleX(d.letter))
+                .y(d => scaleY(d.frequency)));
+    }
 
+    // 创建 tips
+    _createTips() {
+        return d3Tip().attr('class', 'd3-tip')
+            .offset((d) => {
+                return [this.scaleY(d.frequency) - 15, 0];
+            })
+            .html((d) => {
+                return "<strong>星期" + d.letter + "<br>百分比:</strong> <span style='color:#ffeb3b'>" + (d.frequency * 100).toFixed(2) + "%</span>";
+            });
+    }
+
+    _createTipsCycle() {
+        this.drawContainer.append('circle').attr('id', 'tipFollowCursor');
+        this.drawContainer.on('mouseover', (d) => {
+            console.log(d);
+        })
+    }
+
+    // 绘制 tips 背景块
+    _drawTipsBar(drawContainer, scaleX, scaleY) {
+        return drawContainer.selectAll(".bar")
+            .data(this.data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("fill", "transparent")
+            .attr("x", item => scaleX(item.letter) - scaleX.step() / 2)
+            .attr("y", 0)
+            .attr("width", scaleX.step())
+            .attr("height", this.drawSize.height)
+            .on('mouseover', (d) => {
+                this._drawTipsLine(d);
+            });
+    }
+
+    // 绘制提示线
+    _drawTipsLine(d) {
+        this.drawContainer.selectAll(".tips-line").remove();
+        this.drawContainer.selectAll(".tips-line")
+            .data([d])
+            .enter().append("line")
+            .attr("class", "tips-line")
+            .attr("stroke", "#CCCCCC")
+            .attr("stroke-width", "1px")
+            .attr("stroke-dasharray", "5,5")
+            .attr("z-index", "-1")
+            .attr("x1", this.scaleX(d.letter) + 1)
+            .attr("y1", 0)
+            .attr("x2", this.scaleX(d.letter) + 1)
+            .attr("y2", this.drawSize.height);
     }
 }
 
