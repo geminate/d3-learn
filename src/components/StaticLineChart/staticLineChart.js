@@ -119,11 +119,19 @@ class staticLineChart {
             .on('mouseover', (d) => {
                 this._drawTipsLine(d);
             }).on('mousemove', (d) => {
+                const tipX = d3.event.offsetX - this.svgPadding.left;
+                const tipY = d3.event.offsetY - this.svgPadding.top;
                 const target = d3.select('#tipFollowCursor')
-                    .attr('cx', d3.event.offsetX - this.svgPadding.left)
-                    .attr('cy', d3.event.offsetY - this.svgPadding.top - 10)
+                    .attr('cx', tipX)
+                    .attr('cy', tipY - 10)
                     .node();
-                this.tips.show(d, target);
+                if (tipX <= 0 || tipY <= 0 || tipX >= this.drawSize.width || tipY >= this.drawSize.height) {
+                    this.tips.hide();
+                } else {
+                    this.tips.show(d, target);
+                }
+            }).on('mouseout', (d) => {
+                this.tips.hide();
             });
     }
 
