@@ -5,6 +5,7 @@
             <router-link to="dataSvg">2. 数据与SVG绑定</router-link>
             <router-link to="staticBarChart">3. 基本静态柱状图</router-link>
             <router-link to="dynamicBarChart">4. 基本动态柱状图</router-link>
+            <router-link to="staticLineChartPage">5. 基本静态折线图</router-link>
         </nav>
         <main>
             <router-view/>

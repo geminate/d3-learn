@@ -5,6 +5,7 @@ import DataBindPage from '@/pages/DataBindPage';
 import DataSvgPage from '@/pages/DataSvgPage';
 import StaticBarChartPage from '@/pages/StaticBarChartPage';
 import DynamicBarChartPage from '@/pages/DynamicBarChartPage';
+import StaticLineChartPage from '@/pages/StaticLineChartPage';
 
 Vue.use(Router);
 
@@ -16,5 +17,6 @@ export default new Router({
         {path: '/dataSvg', component: DataSvgPage},
         {path: '/staticBarChart', component: StaticBarChartPage},
         {path: '/dynamicBarChart', component: DynamicBarChartPage},
+        {path: '/staticLineChartPage', component: StaticLineChartPage},
     ]
 })
