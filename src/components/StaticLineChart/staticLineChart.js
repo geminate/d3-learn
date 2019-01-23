@@ -96,9 +96,6 @@ class staticLineChart {
     // 创建 tips
     _createTips() {
         return d3Tip().attr('class', 'd3-tip')
-            .offset((d) => {
-                return [this.scaleY(d.frequency) - 15, 0];
-            })
             .html((d) => {
                 return "<strong>星期" + d.letter + "<br>百分比:</strong> <span style='color:#ffeb3b'>" + (d.frequency * 100).toFixed(2) + "%</span>";
             });
@@ -106,9 +103,6 @@ class staticLineChart {
 
     _createTipsCycle() {
         this.drawContainer.append('circle').attr('id', 'tipFollowCursor');
-        this.drawContainer.on('mouseover', (d) => {
-            console.log(d);
-        })
     }
 
     // 绘制 tips 背景块
@@ -124,6 +118,12 @@ class staticLineChart {
             .attr("height", this.drawSize.height)
             .on('mouseover', (d) => {
                 this._drawTipsLine(d);
+            }).on('mousemove', (d) => {
+                const target = d3.select('#tipFollowCursor')
+                    .attr('cx', d3.event.offsetX - this.svgPadding.left)
+                    .attr('cy', d3.event.offsetY - this.svgPadding.top - 10)
+                    .node();
+                this.tips.show(d, target);
             });
     }
 
